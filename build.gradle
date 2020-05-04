@@ -1,0 +1,15 @@
+apply plugin: 'idea'
+//and standard one
+apply plugin: 'java'
+
+
+repositories {
+    mavenCentral()
+    google()
+    jcenter()
+}
+
+dependencies {
+    compile "log4j:log4j:1.2.17"
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

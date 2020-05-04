@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="575.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.xdsup.voicechat.client.RoomController">
+   <children>
+      <TreeView prefHeight="370.0" prefWidth="237.0" />
+      <Button layoutX="315.0" layoutY="331.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="67.0" />
+      <Button layoutX="423.0" layoutY="332.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="89.0" text="Button" />
+   </children>
+</AnchorPane>
