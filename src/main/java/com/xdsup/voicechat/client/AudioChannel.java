@@ -34,6 +34,7 @@ public class AudioChannel extends Thread{
 
     public AudioChannel(Main app, long clId){
         super();
+        this.app = app;
         chId = clId;
     }
 
@@ -51,17 +52,17 @@ public class AudioChannel extends Thread{
             speaker.open(af);
             speaker.start();
 
-            while(true){
+            for (;;){
+                if(queue.isEmpty()) {// нечего проигрывать
+                    Utils.sleep(10);
+                    continue;
+                }
                 if(canKill()){ // если нет долго от этого клиента сообщений
                     // прекращаем слушать сообщения
                     break;
                 }
                 if(!app.audioOn){ // если звук выключен, чистим все что приходило раньше.
                     queue.clear();
-                    Utils.sleep(10);
-                    continue;
-                }
-                if(queue.isEmpty()) {// нечего проигрывать
                     Utils.sleep(10);
                     continue;
                 }

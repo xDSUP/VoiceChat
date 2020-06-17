@@ -26,6 +26,7 @@ public class Main extends Application {
     private Stage primaryStage;
     private long clientId;
     public static Logger LOGGER;
+    RoomController roomController;
 
     //для сервера
     private Socket socket;
@@ -74,26 +75,30 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/source.fxml"));
             Scene sceneRoom = loader.load();
-            RoomController roomController = loader.getController();
+            roomController = loader.getController();
             roomController.setApp(this);
             roomController.setStage(primaryStage);
             roomController.setServer(socket);
 
+
             primaryStage.setScene(sceneRoom);
             if(roomController.boxMicro.isSelected()) {
-                captureAudio();
+                //captureAudio();
             }
-
             // иниц приема
             messageHandler = new MessageHandler(this);
-            //messageHandler.start();
+            messageHandler.start();
             // инициализация отправки
-            //Thread audioSender = new AudioSenderThread(this, outputStream);
-            //audioSender.start();
+            Thread audioSender = new AudioSenderThread(this, outputStream);
+            audioSender.start();
             // иниц вывода звука
             audioChannels = new HashMap<>();
+
+            roomController.updateRoom(); // обновим список людей
         }
         catch (IOException e){
+            e.printStackTrace();
+        } catch (LineUnavailableException e) {
             e.printStackTrace();
         }
     }
@@ -101,7 +106,7 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         super.stop();
-        messageHandler.stop();
+        //messageHandler.stop();
 
     }
 
@@ -204,7 +209,7 @@ public class Main extends Application {
                         }
                         else{
                             //TODO: сжимать звук
-                            LOGGER.info("Послал нормальное звук сообщение");
+                            //LOGGER.info("Послал нормальное звук сообщение");
                             Message m = new Message(new AudioPacket(clientId, buff));
                             outputStream.writeObject(m);
                             outputStream.flush();

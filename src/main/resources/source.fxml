@@ -20,12 +20,12 @@
                <VBox prefHeight="200.0" prefWidth="100.0">
                   <children>
                      <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="100.0" />
-                                  <TreeView fx:id="treeUsers" prefHeight="210.0" prefWidth="100.0" />
+                                  <TreeView fx:id="treeUsers" prefHeight="210.0" prefWidth="100.0" showRoot="false" />
                      <Separator orientation="VERTICAL" prefHeight="126.0" prefWidth="100.0" />
                      <CheckBox fx:id="boxMicro" mnemonicParsing="false" onAction="#changeMicroOnAction" prefHeight="0.0" prefWidth="73.0" selected="true" text="Micro On" />
                      <VBox prefHeight="42.0" prefWidth="100.0">
                         <children>
-                           <CheckBox fx:id="boxAudio" mnemonicParsing="false" onAction="#changeAudioOnAction" text="Dinamic On" />
+                           <CheckBox fx:id="boxAudio" mnemonicParsing="false" onAction="#changeAudioOnAction" selected="true" text="Dinamic On" />
                         </children>
                      </VBox>
                   </children>
@@ -35,14 +35,14 @@
                                 <children>
                                     <Separator orientation="VERTICAL" prefHeight="22.0" prefWidth="338.0" />
                                     <Label text="Chat" />
-                                    <TextArea fx:id="chat" editable="false" prefHeight="210.0" prefWidth="338.0" />
+                                    <TextArea fx:id="chat" editable="false" prefHeight="210.0" prefWidth="338.0" wrapText="true" />
                                     <Label prefHeight="18.0" prefWidth="92.0" text="Message" />
                                     <TextArea fx:id="messageText" prefHeight="116.0" prefWidth="338.0" />
                                     <HBox prefHeight="52.0" prefWidth="338.0">
                                         <children>
-                                            <Button fx:id="butSend" mnemonicParsing="false" prefHeight="32.0" prefWidth="109.0" text="Send" />
+                                            <Button fx:id="butSend" mnemonicParsing="false" onAction="#sendAction" prefHeight="32.0" prefWidth="109.0" text="Send" />
                                             <Separator prefWidth="200.0" />
-                                            <Button fx:id="butTalk" mnemonicParsing="false" prefHeight="32.0" prefWidth="116.0" text="Talk" />
+                                            <Button fx:id="butTalk" mnemonicParsing="false" onAction="#talkAction" prefHeight="32.0" prefWidth="116.0" text="Talk" />
                                         </children>
                                     </HBox>
                                 </children>

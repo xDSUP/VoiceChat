@@ -1,5 +1,7 @@
 package com.xdsup.voicechat.server;
 
+import com.xdsup.voicechat.core.User;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,7 +17,7 @@ public class Server implements Runnable{
     int port;
     boolean AutorizationRequired = false;
     ServerSocket serverSocket;
-    Logger LOGGER;
+    static Logger LOGGER;
 
     // для каждого нового человека новый поток будет
     ArrayList<ClientConnection> clients;
@@ -28,6 +30,7 @@ public class Server implements Runnable{
         LOGGER = Logger.getLogger(ServerDekstop.class.getName());
         LOGGER.log(Level.INFO, "Server started");
         broadcastSender = new BroadcastSender(this);
+
     }
 
     public void run() {
@@ -35,6 +38,7 @@ public class Server implements Runnable{
         try (ServerSocket serverSocket = new ServerSocket(port)){
             this.serverSocket = serverSocket;
             LOGGER.log(Level.INFO, "Server runned, port " + port);
+            broadcastSender.start();
             while (true) {
                 try{
                     // ждем подключений и переводим их в новый поток для дальнейшего общения
@@ -54,6 +58,7 @@ public class Server implements Runnable{
             for (ClientConnection cl:clients) {
                 cl.stop();
             }
+            broadcastSender.stop();
         }
     }
 
@@ -75,6 +80,15 @@ public class Server implements Runnable{
         return AutorizationRequired;
     }
 
+    public ArrayList<User> getUsers(){
+        ArrayList<User> users = new ArrayList<>();
+        for (ClientConnection cl: clients) {
+             if(cl.isAuthorized()){ // добавлять будем только авторизованных клиентов
+                 users.add(cl.getUserProfile());
+             }
+        }
+        return users;
+    }
     //void addNewRoom(String title){
     //    rooms.add(new Room(idForRoom++,title));
     //}

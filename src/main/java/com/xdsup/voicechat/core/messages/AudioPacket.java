@@ -1,5 +1,6 @@
 package com.xdsup.voicechat.core.messages;
 
+import com.xdsup.voicechat.client.AudioUtils;
 import com.xdsup.voicechat.core.Message;
 
 import javax.sound.sampled.AudioFormat;
@@ -10,7 +11,7 @@ public class AudioPacket implements Serializable {
     private final long clientId;
     public static int defailtDataLenght = 900;
     private final static long TTL = 2000;
-    public static AudioFormat defaultFormat=new AudioFormat(11025f, 8, 1, true, true); //11.025khz, 8bit, mono, signed, big endian (changes nothing in 8 bit) ~8kb/s
+    public static AudioFormat defaultFormat= AudioUtils.getAudioFormat();
     private byte[] data;
     private final long timeStamp; // время, когда отправлен пакет
 

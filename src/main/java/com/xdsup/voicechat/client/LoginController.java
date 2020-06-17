@@ -86,8 +86,8 @@ public class LoginController {
         //InetAddress ip = InetAddress.getLocalHost();
         System.out.println(ip.getHostAddress() +":"  +textPort.getText());
 
-        try(Socket socket = new Socket(ip.getHostName(), Integer.parseInt(textPort.getText()))){
-            ;
+        try{
+            Socket socket = new Socket(ip.getHostName(), Integer.parseInt(textPort.getText()));
             if(!socket.isConnected()){
                 status = Status.NO_RESPONSE;
                 labStatus.setText(status.getText());
@@ -115,6 +115,8 @@ public class LoginController {
                                 case OK:{
                                     status = Status.OK;
                                     app.setServer(socket);
+                                    if(socket.isClosed())
+                                        System.out.println("После румы я закрыл соединение");
                                     app.setClientId(inP.getClientId());
                                     app.setInputStream(in);
                                     app.setOutputStream(out);

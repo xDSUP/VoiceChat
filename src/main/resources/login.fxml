@@ -7,18 +7,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<Scene xmlns="http://javafx.com/javafx/10.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xdsup.voicechat.client.LoginController">
+<Scene xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.xdsup.voicechat.client.LoginController">
     <AnchorPane fx:id="loginPane" prefHeight="234.0" prefWidth="269.0">
       <children>
          <Label layoutX="17.0" layoutY="99.0" prefHeight="18.0" prefWidth="83.0" text="Login" />
          <Label layoutX="17.0" layoutY="138.0" text="Password" />
          <Label layoutX="15.0" layoutY="23.0" text="SERVER IP" />
-         <Button fx:id="butConnect" layoutX="115.0" layoutY="188.0" mnemonicParsing="false" onAction="#butConnectCliced" prefHeight="32.0" prefWidth="132.0" text="Connect" />
+         <Button fx:id="butConnect" layoutX="104.0" layoutY="167.0" mnemonicParsing="false" onAction="#butConnectCliced" prefHeight="32.0" prefWidth="132.0" text="Login" />
          <TextField fx:id="textLog" layoutX="95.0" layoutY="95.0" />
          <PasswordField fx:id="textPass" layoutX="95.0" layoutY="134.0" />
          <TextField fx:id="textServerIp" layoutX="85.0" layoutY="19.0" prefHeight="26.0" prefWidth="119.0" promptText="127.0.0.1" text="127.0.0.1" />
          <Label layoutX="17.0" layoutY="66.0" text="Status:" />
          <Label fx:id="labStatus" layoutX="93.0" layoutY="66.0" prefHeight="18.0" prefWidth="180.0" text="Input IP" />
          <TextField fx:id="textPort" layoutX="210.0" layoutY="19.0" prefHeight="26.0" prefWidth="45.0" promptText="2424" text="2424" />
+         <Button fx:id="butRegister" layoutX="12.0" layoutY="187.0" mnemonicParsing="false" onAction="#RegisterAction" text="Register" />
       </children></AnchorPane>
 </Scene>

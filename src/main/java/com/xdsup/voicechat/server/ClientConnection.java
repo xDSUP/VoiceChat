@@ -1,7 +1,9 @@
 package com.xdsup.voicechat.server;
 
 import com.xdsup.voicechat.core.Message;
+import com.xdsup.voicechat.core.User;
 import com.xdsup.voicechat.core.messages.AudioPacket;
+import com.xdsup.voicechat.core.messages.CommandPacket;
 import com.xdsup.voicechat.core.messages.ConnectPacket;
 
 import java.io.IOException;
@@ -28,6 +30,7 @@ public class ClientConnection extends Thread {
     ObjectOutputStream out;
 
     private boolean authorized;
+    private User userProfile;
     private final long chId; // уникальная айдишка клиента
 
     static Logger LOGGER;
@@ -84,21 +87,42 @@ public class ClientConnection extends Thread {
                             } else {
                                 authorized = true;
                                 ConnectPacket outP = (ConnectPacket) message.getData();
+                                userProfile = new User(outP.getLogin());
                                 outP.reset(); // подготовили для отправки назад
                                 outP.setStatus(ConnectPacket.Status.OK);
                                 outP.setClientId(chId);
-                                LOGGER.log(Level.INFO, "Answer: " + outP.getStatus() + " to" + getInetAddress() + ":" + getPort());
+                                LOGGER.log(Level.INFO, "Answer: " + outP.getStatus() + " to"
+                                        + getInetAddress() + ":" + getPort());
                                 Message outM = new Message(outP);
                                 send(outM);
+                                //сообщим всем, что кол-во кл изменилось
+                                server.broadcastSender.sendAll(new Message(
+                                        new CommandPacket(
+                                                CommandPacket.Command.GET_USERS,
+                                                server.getUsers())
+                                ));
                             }
                         }
                         else if (message.getData() instanceof AudioPacket) {
                             LOGGER.log(Level.INFO, "Audio packet from " + getInetAddress() + ":" + getPort());
-                            server.broadcastSender.addAudioPacket((AudioPacket) message.getData());
+                            server.broadcastSender.sendAll(message);
+                        }
+                        else if (message.getData() instanceof CommandPacket){
+                            CommandPacket packet = (CommandPacket)message.getData();
+                            switch (packet.getCommand()){
+                                case GET_USERS: {// пришел запрос на обновление
+                                    packet.setData(server.getUsers());
+                                    send(new Message(packet));
+                                    break;
+                                }
+                                case CHAT:{ // пришло сообщение чата, отправлю всем
+                                    server.broadcastSender.sendAll(message);
+                                }
+                            }
                         }
                     }
                 }catch (StreamCorruptedException e){
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
                 catch (ClassNotFoundException e) {
                 }
@@ -125,8 +149,20 @@ public class ClientConnection extends Thread {
         return socket.getPort();
     }
 
+    public long getChId() {
+        return chId;
+    }
+
     public ObjectInputStream getIn() {
         return in;
+    }
+
+    public boolean isAuthorized() {
+        return authorized;
+    }
+
+    public User getUserProfile() {
+        return userProfile;
     }
 
     public ObjectOutputStream getOut() {
