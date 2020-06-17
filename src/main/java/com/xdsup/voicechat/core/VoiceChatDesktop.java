@@ -109,9 +109,7 @@ public class VoiceChatDesktop
             // и запускаем его
             //он будет работать
             //пока не нажмут кнопку
-            Thread captureThread =
-                    new Thread(
-                            new CaptureThread());
+            Thread captureThread = new Thread(new CaptureThread());
             captureThread.start();
         } catch (Exception e) {
             System.out.println(e);
@@ -127,28 +125,14 @@ public class VoiceChatDesktop
             //Устанавливаем всё
             //для проигрывания
 
-            byte audioData[] =
-                    byteArrayOutputStream.
-                            toByteArray();
+            byte audioData[] = byteArrayOutputStream.toByteArray();
 
-            InputStream byteArrayInputStream
-                    = new ByteArrayInputStream(
-                    audioData);
-            AudioFormat audioFormat =
-                    getAudioFormat();
-            audioInputStream =
-                    new AudioInputStream(
-                            byteArrayInputStream,
-                            audioFormat,
-                            audioData.length/audioFormat.
-                                    getFrameSize());
-            DataLine.Info dataLineInfo =
-                    new DataLine.Info(
-                            SourceDataLine.class,
-                            audioFormat);
-            sourceDataLine = (SourceDataLine)
-                    AudioSystem.getLine(
-                            dataLineInfo);
+            InputStream byteArrayInputStream = new ByteArrayInputStream(audioData);
+            AudioFormat audioFormat = getAudioFormat();
+            audioInputStream = new AudioInputStream(byteArrayInputStream, audioFormat,
+                    audioData.length/audioFormat.getFrameSize());
+            DataLine.Info dataLineInfo = new DataLine.Info(SourceDataLine.class, audioFormat);
+            sourceDataLine = (SourceDataLine) AudioSystem.getLine(dataLineInfo);
             sourceDataLine.open(audioFormat);
             sourceDataLine.start();
 
@@ -157,8 +141,7 @@ public class VoiceChatDesktop
             // он будет работать пока
             // все записанные данные не проиграются
 
-            Thread playThread =
-                    new Thread(new PlayThread());
+            Thread playThread = new Thread(new PlayThread());
             playThread.start();
         } catch (Exception e) {
             System.out.println(e);

@@ -8,6 +8,7 @@ public class ConnectPacket implements Serializable {
     private String login;
     private String password;
     private Status status; // для ответа сервера
+    private long clientId;
 
     public ConnectPacket(String login, String password) {
         this.login = login;
@@ -17,6 +18,11 @@ public class ConnectPacket implements Serializable {
     public ConnectPacket(Status status) {
         this("","");
         this.status = status;
+    }
+
+    public ConnectPacket(Status status, long clientId) {
+        this(status);
+        this.clientId = clientId;
     }
 
     public String getLogin() {
@@ -29,6 +35,14 @@ public class ConnectPacket implements Serializable {
 
     public Status getStatus() {
         return status;
+    }
+
+    public long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(long clientId) {
+        this.clientId = clientId;
     }
 
     public void setStatus(Status status) {

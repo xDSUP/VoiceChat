@@ -19,12 +19,15 @@ public class Server implements Runnable{
 
     // для каждого нового человека новый поток будет
     ArrayList<ClientConnection> clients;
+    // широковещательный канал
+    BroadcastSender broadcastSender;
 
     Server(int port){
         clients = new ArrayList<>();
         this.port = port;
         LOGGER = Logger.getLogger(ServerDekstop.class.getName());
         LOGGER.log(Level.INFO, "Server started");
+        broadcastSender = new BroadcastSender(this);
     }
 
     public void run() {

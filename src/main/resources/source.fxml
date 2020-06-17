@@ -22,10 +22,10 @@
                      <Separator orientation="VERTICAL" prefHeight="35.0" prefWidth="100.0" />
                                   <TreeView fx:id="treeUsers" prefHeight="210.0" prefWidth="100.0" />
                      <Separator orientation="VERTICAL" prefHeight="126.0" prefWidth="100.0" />
-                     <CheckBox fx:id="boxMicro" mnemonicParsing="false" prefHeight="0.0" prefWidth="73.0" selected="true" text="Micro On" />
+                     <CheckBox fx:id="boxMicro" mnemonicParsing="false" onAction="#changeMicroOnAction" prefHeight="0.0" prefWidth="73.0" selected="true" text="Micro On" />
                      <VBox prefHeight="42.0" prefWidth="100.0">
                         <children>
-                           <CheckBox fx:id="boxAudio" mnemonicParsing="false" selected="true" text="Dinamic On" />
+                           <CheckBox fx:id="boxAudio" mnemonicParsing="false" onAction="#changeAudioOnAction" text="Dinamic On" />
                         </children>
                      </VBox>
                   </children>

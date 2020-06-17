@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.net.DatagramSocket;
 import java.net.Socket;
 import java.util.logging.Logger;
 
@@ -34,6 +35,30 @@ public class RoomController {
     private void initialize() {
         updateRoom();
         updateChat();
+    }
+
+    @FXML
+    private void changeMicroOnAction(){ // изменение галочки
+
+        if(boxMicro.isSelected()){
+            LOGGER.info("MicroOnChanged = ON");
+            app.captureAudio();
+            app.microOn = true;
+        }
+        else {
+            LOGGER.info("MicroOnChanged = OFF");
+            app.microOn = false;
+        }
+    }
+
+    @FXML
+    private void changeAudioOnAction(){ // изменение галочки
+        if(boxAudio.isSelected()){
+            app.audioOn = true;
+        }
+        else{
+            app.audioOn = false;
+        }
     }
 
     private void updateRoom(){

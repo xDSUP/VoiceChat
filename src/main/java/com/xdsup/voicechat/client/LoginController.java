@@ -75,12 +75,19 @@ public class LoginController {
     }
 
     public void butConnectCliced() throws IOException {
+
+        if(textPort.getText().length() == 1) {
+            app.showRoomWindow();
+            return;
+        }
+
         InetAddress ip = InetAddress.getByName(textServerIp.getText());
         int port = Integer.parseInt(textPort.getText());
         //InetAddress ip = InetAddress.getLocalHost();
         System.out.println(ip.getHostAddress() +":"  +textPort.getText());
 
         try(Socket socket = new Socket(ip.getHostName(), Integer.parseInt(textPort.getText()))){
+            ;
             if(!socket.isConnected()){
                 status = Status.NO_RESPONSE;
                 labStatus.setText(status.getText());
@@ -108,6 +115,9 @@ public class LoginController {
                                 case OK:{
                                     status = Status.OK;
                                     app.setServer(socket);
+                                    app.setClientId(inP.getClientId());
+                                    app.setInputStream(in);
+                                    app.setOutputStream(out);
                                     app.showRoomWindow();
                                     break;
                                 }
@@ -137,6 +147,7 @@ public class LoginController {
             status = Status.NO_RESPONSE;
             labStatus.setText(status.getText());
             LOGGER.log(Level.WARNING, "Server not runned, port " + port, e);
+            server.close();
         }
     }
 
