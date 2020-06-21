@@ -2,14 +2,37 @@ apply plugin: 'idea'
 //and standard one
 apply plugin: 'java'
 
-
 repositories {
     mavenCentral()
-    google()
-    jcenter()
 }
 
 dependencies {
-    compile "log4j:log4j:1.2.17"
-    implementation 'com.google.code.gson:gson:2.8.6'
+    compile "org.openjfx:javafx-base:13"
+    compile "org.openjfx:javafx-graphics:11"
+    compile "org.openjfx:javafx-controls:11"
+    compile 'org.openjfx:javafx-fxml:11'
+    compile group: 'org.openjfx', name: 'javafx', version: '13'
+}
+
+task run(type: JavaExec) {
+    classpath sourceSets.main.runtimeClasspath
+    main = 'voicechat'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'voicechat.client.ClientDesktop'
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+run {
+    doFirst {
+        jvmArgs = [
+                '--module-path', classpath.asPath,
+                '--add-modules', 'javafx.controls,javafx.fxml'
+        ]
+    }
 }
