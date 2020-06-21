@@ -1,38 +1,35 @@
-apply plugin: 'idea'
-//and standard one
-apply plugin: 'java'
 
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+javafx {
+    version = "13"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
+}
 repositories {
     mavenCentral()
 }
 
+
 dependencies {
     compile "org.openjfx:javafx-base:13"
-    compile "org.openjfx:javafx-graphics:11"
-    compile "org.openjfx:javafx-controls:11"
-    compile 'org.openjfx:javafx-fxml:11'
+    compile "org.openjfx:javafx-graphics:13"
+    compile "org.openjfx:javafx-controls:13"
+    compile 'org.openjfx:javafx-fxml:13'
     compile group: 'org.openjfx', name: 'javafx', version: '13'
+    // https://mvnrepository.com/artifact/org.openjfx.javafxplugin/org.openjfx.javafxplugin.gradle.plugin
+    //compile group: 'org.openjfx.javafxplugin', name: 'org.openjfx.javafxplugin.gradle.plugin', version: '0.0.8', ext: 'pom'
 }
-
-task run(type: JavaExec) {
-    classpath sourceSets.main.runtimeClasspath
-    main = 'voicechat'
-}
-
+mainClassName = 'voicechat.client.MainLauncher'
 jar {
     manifest {
-        attributes 'Main-Class': 'voicechat.client.ClientDesktop'
+        attributes 'Main-Class': 'voicechat.client.MainLauncher'
     }
     from {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-run {
-    doFirst {
-        jvmArgs = [
-                '--module-path', classpath.asPath,
-                '--add-modules', 'javafx.controls,javafx.fxml'
-        ]
     }
 }
